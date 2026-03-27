@@ -97,12 +97,7 @@ class Balsa:
                 self.serfs_esperando += 1
             
             # Esperando a que se forme un grupo valido
-            while True:
-                #checar si el programa ya debe terminar xq no hay mas grupos posibles
-                if self._no_es_posible_formar_grupo():  
-                    self.finalizado = True               
-                    self.condicion.notify_all()          
-                    return                               
+            while True:                         
 
                 if self.finalizado:
                     return # salimos si ya acabo
@@ -175,7 +170,6 @@ def persona(balsa, bando, id_persona):
     balsa.abordar(bando, id_persona)
 
 def main():
-    print("SIMULACIÓN CRUCE DEL RIO - PROBLEMA DE SINCRONIZACIÓN")
     print("=" * 50)
     
     balsa = Balsa()
