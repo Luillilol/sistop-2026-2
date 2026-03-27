@@ -36,6 +36,21 @@ class Balsa:
 
         
         self.allowed_hackers = sum(1 for b in self.grupo_actual if b == Bando.HACKER)  
-        self.allowed_serfs = sum(1 for b in self.grupo_actual if b == Bando.SERF)      
+        self.allowed_serfs = sum(1 for b in self.grupo_actual if b == Bando.SERF)       
         
         print(f"Grupo formado: {[b.value for b in self.grupo_actual]}")
+def main():
+    print("SIMULACIÓN CRUCE DEL RIO - PROBLEMA DE SINCRONIZACIÓN")
+    print("=" * 50)
+    
+    balsa = Balsa()
+    
+    hilos = []
+    id_counter = 1
+    
+    print("\n" + "=" * 50)
+    print(f"Total de viajes: {balsa.viajes_realizados}")
+    print("Simulacion completada...")
+
+if __name__ == "__main__":
+    main()
