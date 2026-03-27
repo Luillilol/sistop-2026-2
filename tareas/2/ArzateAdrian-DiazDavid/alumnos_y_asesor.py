@@ -9,11 +9,12 @@ numero_sillas = 10
 
 
 class Alumno(th.Thread):
-	def __init__(self, id, sillas, turno):
+	def __init__(self, id, sillas, turno, condicion):
 		super().__init__()
 		self.id = id
 		self.silla = sillas
-		self.mutex = mutex
+		self.turno = turno
+		self.condicion = condicion
 		self.numero_dudas = random.randint(1, 10)
 
 	def run(self):
@@ -29,9 +30,9 @@ class Alumno(th.Thread):
 		while self.numero_dudas != 0:
 			
 			with self.turno:
-				
+				self.condicion.notify()
 				print(f"El alumno {self.id} está relaizando resolviendo una duda")
-
+				self.condicion.wait()
 				self.numero_dudas -= 1
 							
 			time.sleep(1)
@@ -52,5 +53,30 @@ class Profesor(th.Thread):
 
 				self.condicion.notify()
 				print(f"El Profesor terminó con una duda")
-
 				self.condicion.wait()			
+
+def main():
+	
+	numero_sillas = th.Semaphore(10)
+
+	turno = th.Lock()
+
+	condicion = th.Condition(turno)
+	
+	id_alumno = 1	
+
+	profesor = Profesor(condicion)
+	profesor.daemon = True
+	profesor.start()
+
+
+	try:
+		while True:
+			alumno = Alumno(id_alumno, numero_sillas, turno, condicion)
+			alumno.start()
+			id_alumno += 1
+	except KeyboardInterrupt:
+		print("finalizacion")
+
+
+main()
