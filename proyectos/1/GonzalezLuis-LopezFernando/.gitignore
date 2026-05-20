@@ -1,0 +1,5 @@
+/test/
+**/test**.**
+
+**/.obsidian/
+**/__pycache__
